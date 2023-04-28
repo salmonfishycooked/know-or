@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go.uber.org/zap"
+	"go_web_app/controller"
 	"go_web_app/dao/mysql"
 	"go_web_app/dao/redis"
 	"go_web_app/logger"
@@ -25,7 +26,7 @@ func main() {
 		return
 	}
 	// 初始化日志
-	if err := logger.Init(settings.Conf.LogConfig); err != nil {
+	if err := logger.Init(settings.Conf.LogConfig, settings.Conf.Mode); err != nil {
 		fmt.Printf("init logger failed, err:%v\n", err)
 		return
 	}
@@ -44,6 +45,11 @@ func main() {
 	// 初始化分布式 ID 生成器
 	if err := snowflake.Init(settings.Conf.StartTime, settings.Conf.MachineID); err != nil {
 		fmt.Printf("init snowflake failed, err:%v\n", err)
+		return
+	}
+	//初始化 gin 框架内置校验器使用的翻译器
+	if err := controller.InitTrans("zh"); err != nil {
+		fmt.Printf("init validator trans failed, err:%v\n", err)
 		return
 	}
 	// 注册路由
