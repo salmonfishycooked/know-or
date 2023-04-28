@@ -14,7 +14,7 @@ const secret = "salmonfishycooked"
 var (
 	ErrorUserExist       = errors.New("用户已存在")
 	ErrorUserNotExist    = errors.New("用户不存在")
-	ErrorInvaildPassword = errors.New("用户名或密码错误")
+	ErrorInvalidPassword = errors.New("用户名或密码错误")
 )
 
 // CheckUserExist 检查指定用户名的用户是否存在
@@ -67,7 +67,7 @@ func Login(u *model.User) (err error) {
 	// 判断密码是否一致
 	password := encryptPassword(oPassword)
 	if password != u.Password {
-		return ErrorInvaildPassword
+		return ErrorInvalidPassword
 	}
 	return
 }

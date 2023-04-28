@@ -30,7 +30,7 @@ func SignUpHandler(c *gin.Context) {
 	// 业务处理
 	if err := logic.SignUp(p); err != nil {
 		zap.L().Error("logic.SignUp failed", zap.Error(err))
-		if errors.Is(err, mysql.ErrorUserNotExist) {
+		if errors.Is(err, mysql.ErrorUserExist) {
 			ResponseError(c, CodeUserExist)
 			return
 		}
@@ -65,7 +65,7 @@ func LoginHandler(c *gin.Context) {
 		if errors.Is(err, mysql.ErrorUserNotExist) {
 			ResponseError(c, CodeUserNotExist)
 			return
-		} else if errors.Is(err, mysql.ErrorInvaildPassword) {
+		} else if errors.Is(err, mysql.ErrorInvalidPassword) {
 			ResponseError(c, CodeInvalidPassword)
 			return
 		}
