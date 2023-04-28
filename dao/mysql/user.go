@@ -6,15 +6,17 @@ import (
 	"encoding/hex"
 	"errors"
 	"go_web_app/model"
+	"go_web_app/pkg/e"
 )
 
 // md5 盐值
 const secret = "salmonfishycooked"
 
+// 错误定义
 var (
-	ErrorUserExist       = errors.New("用户已存在")
-	ErrorUserNotExist    = errors.New("用户不存在")
-	ErrorInvalidPassword = errors.New("用户名或密码错误")
+	ErrorUserExist       = errors.New(e.CodeUserExist.Msg())
+	ErrorUserNotExist    = errors.New(e.CodeUserNotExist.Msg())
+	ErrorInvalidPassword = errors.New(e.CodeInvalidPassword.Msg())
 )
 
 // CheckUserExist 检查指定用户名的用户是否存在

@@ -3,6 +3,7 @@ package logic
 import (
 	"go_web_app/dao/mysql"
 	"go_web_app/model"
+	"go_web_app/pkg/jwt"
 	"go_web_app/pkg/snowflake"
 )
 
@@ -27,10 +28,17 @@ func SignUp(p *model.ParamSignUp) (err error) {
 }
 
 // Login 用来处理登录业务
-func Login(p *model.ParamLogin) (err error) {
+// 会返回一个 token
+func Login(p *model.ParamLogin) (token string, err error) {
 	u := &model.User{
 		Username: p.Username,
 		Password: p.Password,
 	}
-	return mysql.Login(u)
+	// 传递的是指针
+	if err = mysql.Login(u); err != nil {
+		return "", err
+	}
+
+	// 生成 JWT
+	return jwt.GenToken(u.UserID, u.Username)
 }

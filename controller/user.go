@@ -8,6 +8,7 @@ import (
 	"go_web_app/dao/mysql"
 	"go_web_app/logic"
 	"go_web_app/model"
+	"go_web_app/pkg/e"
 )
 
 // SignUpHandler 用来处理注册请求
@@ -20,10 +21,10 @@ func SignUpHandler(c *gin.Context) {
 		// 判断 err 是否为 validator.ValidationErrors 类型
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			ResponseError(c, CodeInvalidParam)
+			e.ResponseError(c, e.CodeInvalidParam)
 			return
 		}
-		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		e.ResponseErrorWithMsg(c, e.CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
 
@@ -31,15 +32,15 @@ func SignUpHandler(c *gin.Context) {
 	if err := logic.SignUp(p); err != nil {
 		zap.L().Error("logic.SignUp failed", zap.Error(err))
 		if errors.Is(err, mysql.ErrorUserExist) {
-			ResponseError(c, CodeUserExist)
+			e.ResponseError(c, e.CodeUserExist)
 			return
 		}
-		ResponseError(c, CodeServerBusy)
+		e.ResponseError(c, e.CodeServerBusy)
 		return
 	}
 
 	// 返回响应
-	ResponseSuccess(c, nil)
+	e.ResponseSuccess(c, nil)
 }
 
 // LoginHandler 用来处理登录请求
@@ -52,27 +53,28 @@ func LoginHandler(c *gin.Context) {
 		// 判断 err 是否为 validator.ValidationErrors 类型
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			ResponseError(c, CodeInvalidParam)
+			e.ResponseError(c, e.CodeInvalidParam)
 			return
 		}
-		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		e.ResponseErrorWithMsg(c, e.CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
 
 	// 业务处理
-	if err := logic.Login(p); err != nil {
+	token, err := logic.Login(p)
+	if err != nil {
 		zap.L().Error("logic.Login failed", zap.String("username", p.Username), zap.Error(err))
 		if errors.Is(err, mysql.ErrorUserNotExist) {
-			ResponseError(c, CodeUserNotExist)
+			e.ResponseError(c, e.CodeUserNotExist)
 			return
 		} else if errors.Is(err, mysql.ErrorInvalidPassword) {
-			ResponseError(c, CodeInvalidPassword)
+			e.ResponseError(c, e.CodeInvalidPassword)
 			return
 		}
-		ResponseError(c, CodeServerBusy)
+		e.ResponseError(c, e.CodeServerBusy)
 		return
 	}
 
 	// 返回响应
-	ResponseSuccess(c, nil)
+	e.ResponseSuccess(c, token)
 }
