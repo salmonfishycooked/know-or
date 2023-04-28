@@ -11,6 +11,12 @@ import (
 // md5 盐值
 const secret = "salmonfishycooked"
 
+var (
+	ErrorUserExist       = errors.New("用户已存在")
+	ErrorUserNotExist    = errors.New("用户不存在")
+	ErrorInvaildPassword = errors.New("用户名或密码错误")
+)
+
 // CheckUserExist 检查指定用户名的用户是否存在
 func CheckUserExist(username string) (err error) {
 	// 执行 SQL 语句
@@ -21,7 +27,7 @@ func CheckUserExist(username string) (err error) {
 		return err
 	}
 	if count > 0 {
-		return errors.New("用户已存在")
+		return ErrorUserExist
 	}
 	return
 }
@@ -51,7 +57,7 @@ func Login(u *model.User) (err error) {
 	sqlStr := `select user_id, username, password from user where username = ?`
 	err = db.Get(u, sqlStr, u.Username)
 	if err == sql.ErrNoRows {
-		return errors.New("用户不存在")
+		return ErrorUserNotExist
 	}
 	if err != nil {
 		// 查询数据库失败
@@ -61,7 +67,7 @@ func Login(u *model.User) (err error) {
 	// 判断密码是否一致
 	password := encryptPassword(oPassword)
 	if password != u.Password {
-		return errors.New("密码错误")
+		return ErrorInvaildPassword
 	}
 	return
 }
