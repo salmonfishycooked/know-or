@@ -7,7 +7,7 @@ machine_id: 1
 
 log:
   level: "debug"
-  filename: "tmp.log"
+  filename: "app.log"
   max_size: 200
   max_age: 30
   max_backups: 7
