@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"crypto/md5"
+	"database/sql"
 	"encoding/hex"
 	"errors"
 	"go_web_app/model"
@@ -16,6 +17,7 @@ func CheckUserExist(username string) (err error) {
 	sqlStr := `select count(user_id) from user where username = ?`
 	var count int
 	if err = db.Get(&count, sqlStr, username); err != nil {
+		// 查询数据库失败
 		return err
 	}
 	if count > 0 {
@@ -40,4 +42,26 @@ func encryptPassword(oPassword string) string {
 	h := md5.New()
 	h.Write([]byte(secret))
 	return hex.EncodeToString(h.Sum([]byte(oPassword)))
+}
+
+func Login(u *model.User) (err error) {
+	oPassword := u.Password // 记录用户输入的密码
+
+	// 执行 SQL 语句
+	sqlStr := `select user_id, username, password from user where username = ?`
+	err = db.Get(u, sqlStr, u.Username)
+	if err == sql.ErrNoRows {
+		return errors.New("用户不存在")
+	}
+	if err != nil {
+		// 查询数据库失败
+		return
+	}
+
+	// 判断密码是否一致
+	password := encryptPassword(oPassword)
+	if password != u.Password {
+		return errors.New("密码错误")
+	}
+	return
 }
