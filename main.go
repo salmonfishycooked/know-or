@@ -54,7 +54,6 @@ func main() {
 		Addr:    fmt.Sprintf(":%d", settings.Conf.Port),
 		Handler: r,
 	}
-
 	go func() {
 		// 开启一个goroutine启动服务
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
