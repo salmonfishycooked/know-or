@@ -59,12 +59,12 @@ func Init() (err error) {
 		return
 	}
 	// 把读取到的配置信息反序列化到 Conf 变量中
-	if err := viper.Unmarshal(Conf); err != nil {
+	if err = viper.Unmarshal(Conf); err != nil {
 		return
 	}
 	viper.WatchConfig()                            // 开启配置文件监视
 	viper.OnConfigChange(func(in fsnotify.Event) { // 配置文件更新后执行的回调函数
-		if err := viper.Unmarshal(Conf); err != nil {
+		if err = viper.Unmarshal(Conf); err != nil {
 			return
 		}
 		fmt.Println("配置文件已更新......")
