@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
-	"go_web_app/dao/mysql"
 	"go_web_app/logic"
 	"go_web_app/model"
 	"go_web_app/pkg/e"
@@ -31,7 +30,7 @@ func SignUpHandler(c *gin.Context) {
 	// 业务处理
 	if err := logic.SignUp(p); err != nil {
 		zap.L().Error("logic.SignUp failed", zap.Error(err))
-		if errors.Is(err, mysql.ErrorUserExist) {
+		if errors.Is(err, e.ErrorUserExist) {
 			e.ResponseError(c, e.CodeUserExist)
 			return
 		}
@@ -64,10 +63,10 @@ func LoginHandler(c *gin.Context) {
 	token, err := logic.Login(p)
 	if err != nil {
 		zap.L().Error("logic.Login failed", zap.String("username", p.Username), zap.Error(err))
-		if errors.Is(err, mysql.ErrorUserNotExist) {
+		if errors.Is(err, e.ErrorUserNotExist) {
 			e.ResponseError(c, e.CodeUserNotExist)
 			return
-		} else if errors.Is(err, mysql.ErrorInvalidPassword) {
+		} else if errors.Is(err, e.ErrorInvalidPassword) {
 			e.ResponseError(c, e.CodeInvalidPassword)
 			return
 		}

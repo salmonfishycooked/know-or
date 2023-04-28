@@ -1,13 +1,10 @@
 package jwt
 
 import (
-	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"go_web_app/pkg/e"
 	"time"
 )
-
-var ErrorInvalidToken = errors.New(e.CodeInvalidToken.Msg())
 
 // TokenExpireDuration 是 token 的过期时间
 const TokenExpireDuration = time.Hour * 2
@@ -63,5 +60,5 @@ func ParseToken(tokenString string) (*MyClaims, error) {
 	if token.Valid {
 		return mc, nil
 	}
-	return nil, ErrorInvalidToken
+	return nil, e.ErrorInvalidToken
 }

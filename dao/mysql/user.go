@@ -4,20 +4,12 @@ import (
 	"crypto/md5"
 	"database/sql"
 	"encoding/hex"
-	"errors"
 	"go_web_app/model"
 	"go_web_app/pkg/e"
 )
 
 // md5 盐值
 const secret = "salmonfishycooked"
-
-// 错误定义
-var (
-	ErrorUserExist       = errors.New(e.CodeUserExist.Msg())
-	ErrorUserNotExist    = errors.New(e.CodeUserNotExist.Msg())
-	ErrorInvalidPassword = errors.New(e.CodeInvalidPassword.Msg())
-)
 
 // CheckUserExist 检查指定用户名的用户是否存在
 func CheckUserExist(username string) (err error) {
@@ -29,7 +21,7 @@ func CheckUserExist(username string) (err error) {
 		return err
 	}
 	if count > 0 {
-		return ErrorUserExist
+		return e.ErrorUserExist
 	}
 	return
 }
@@ -59,7 +51,7 @@ func Login(u *model.User) (err error) {
 	sqlStr := `select user_id, username, password from user where username = ?`
 	err = db.Get(u, sqlStr, u.Username)
 	if err == sql.ErrNoRows {
-		return ErrorUserNotExist
+		return e.ErrorUserNotExist
 	}
 	if err != nil {
 		// 查询数据库失败
@@ -69,7 +61,7 @@ func Login(u *model.User) (err error) {
 	// 判断密码是否一致
 	password := encryptPassword(oPassword)
 	if password != u.Password {
-		return ErrorInvalidPassword
+		return e.ErrorInvalidPassword
 	}
 	return
 }
