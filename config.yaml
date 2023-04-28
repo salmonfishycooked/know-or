@@ -1,8 +1,9 @@
-app:
-  name: "go_web_app"
-  mode: "dev"
-  port: 8081
-  version: "v0.1.0"
+name: "go_web_app"
+mode: "dev"
+port: 8081
+version: "v0.1.0"
+start_time: "2023-04-27"
+machine_id: 1
 
 log:
   level: "debug"
