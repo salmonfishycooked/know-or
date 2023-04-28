@@ -1,4 +1,4 @@
-package controller
+package e
 
 type ResCode int64
 
@@ -9,6 +9,7 @@ const (
 	CodeUserNotExist
 	CodeInvalidPassword
 	CodeServerBusy
+	CodeInvalidToken
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -18,6 +19,7 @@ var codeMsgMap = map[ResCode]string{
 	CodeUserNotExist:    "用户不存在",
 	CodeInvalidPassword: "密码错误",
 	CodeServerBusy:      "服务繁忙",
+	CodeInvalidToken:    "登录状态过期",
 }
 
 func (c ResCode) Msg() string {
