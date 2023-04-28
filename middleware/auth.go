@@ -2,12 +2,11 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"go_web_app/controller"
 	"go_web_app/pkg/e"
 	"go_web_app/pkg/jwt"
 	"strings"
 )
-
-const CtxUserIDKey = "userID"
 
 // JWTAuthMiddleware 基于JWT的认证中间件
 func JWTAuthMiddleware() func(c *gin.Context) {
@@ -36,7 +35,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 			return
 		}
 		// 将当前请求的username信息保存到请求的上下文c上
-		c.Set(CtxUserIDKey, mc.Username)
+		c.Set(controller.CtxUserIDKey, mc.Username)
 		c.Next() // 后续的处理函数可以用过c.Get(CtxUserIDKey)来获取当前请求的用户信息
 	}
 }
