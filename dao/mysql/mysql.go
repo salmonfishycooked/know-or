@@ -13,7 +13,7 @@ var db *sqlx.DB
 // Init 用来初始化 MySQL 连接
 func Init(cfg *settings.MySQLConfig) (err error) {
 	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True",
+		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		cfg.User,
 		cfg.Password,
 		cfg.Host,
