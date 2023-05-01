@@ -14,7 +14,7 @@ const secret = "salmonfishycooked"
 // CheckUserExist 检查指定用户名的用户是否存在
 func CheckUserExist(username string) (err error) {
 	// 执行 SQL 语句
-	sqlStr := `select count(user_id) from user where username = ?`
+	sqlStr := `SELECT count(user_id) FROM user WHERE username = ?`
 	var count int
 	if err = db.Get(&count, sqlStr, username); err != nil {
 		// 查询数据库失败
@@ -32,7 +32,7 @@ func InsertUser(u *model.User) (err error) {
 	password := encryptPassword(u.Password)
 
 	// 执行 SQL 语句
-	sqlStr := `insert into user(user_id, username, password) values(?, ?, ?)`
+	sqlStr := `INSERT INTO user(user_id, username, password) VALUES(?, ?, ?)`
 	_, err = db.Exec(sqlStr, u.UserID, u.Username, password)
 	return
 }
@@ -48,7 +48,7 @@ func Login(u *model.User) (err error) {
 	oPassword := u.Password // 记录用户输入的密码
 
 	// 执行 SQL 语句
-	sqlStr := `select user_id, username, password from user where username = ?`
+	sqlStr := `SELECT user_id, username, password FROM user WHERE username = ?`
 	err = db.Get(u, sqlStr, u.Username)
 	if err == sql.ErrNoRows {
 		return e.ErrorUserNotExist
