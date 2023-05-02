@@ -9,6 +9,10 @@ import (
 
 // CreatePost 用来创建一条帖子
 func CreatePost(p *model.Post) (err error) {
+	// 查询发帖的社区id是否存在
+	if _, err = mysql.GetCommunityDetailByID(p.CommunityID); err != nil {
+		return err
+	}
 	// 生成帖子id
 	p.ID = snowflake.GenID()
 	// 插入数据库

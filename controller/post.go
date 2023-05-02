@@ -29,6 +29,11 @@ func CreatePostHandler(c *gin.Context) {
 	// 创建帖子
 	if err := logic.CreatePost(p); err != nil {
 		zap.L().Error("logic.CreatePost(p) failed", zap.Error(err))
+		if err == e.ErrorInvalidID {
+			e.ResponseError(c, e.CodeInvalidID)
+			return
+		}
+		e.ResponseError(c, e.CodeServerBusy)
 	}
 
 	// 返回成功响应
