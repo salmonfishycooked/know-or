@@ -65,3 +65,14 @@ func Login(u *model.User) (err error) {
 	}
 	return
 }
+
+// GetUserByID 根据 id 获取用户信息
+func GetUserByID(uid int64) (*model.User, error) {
+	user := &model.User{}
+	sqlStr := `SELECT 
+    user_id, username
+    FROM user
+    WHERE user_id=?`
+	err := db.Get(user, sqlStr, uid)
+	return user, err
+}

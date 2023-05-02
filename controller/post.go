@@ -6,9 +6,10 @@ import (
 	"go_web_app/logic"
 	"go_web_app/model"
 	"go_web_app/pkg/e"
+	"strconv"
 )
 
-// CreatePostHandler 用来处理创建帖子请求
+// CreatePostHandler 处理创建帖子请求
 func CreatePostHandler(c *gin.Context) {
 	// 参数校验
 	p := &model.Post{}
@@ -32,4 +33,27 @@ func CreatePostHandler(c *gin.Context) {
 
 	// 返回成功响应
 	e.ResponseSuccess(c, nil)
+}
+
+// GetPostDetailHandler 处理获取对应id帖子详情请求
+func GetPostDetailHandler(c *gin.Context) {
+	// 获取并校验参数
+	pidStr := c.Param("id")
+	pid, err := strconv.ParseInt(pidStr, 10, 64)
+	if err != nil {
+		zap.L().Error("GetPostDetail with invalid param", zap.Error(err))
+		e.ResponseError(c, e.CodeInvalidParam)
+		return
+	}
+
+	// 取出相对应id的帖子数据
+	data, err := logic.GetPostByID(pid)
+	if err != nil {
+		zap.L().Error("logic.GetPostByID failed", zap.Error(err))
+		e.ResponseError(c, e.CodeServerBusy)
+		return
+	}
+
+	// 返回成功响应
+	e.ResponseSuccess(c, &data)
 }

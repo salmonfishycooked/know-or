@@ -17,7 +17,7 @@ func CommunityHandler(c *gin.Context) {
 		e.ResponseError(c, e.CodeServerBusy)
 		return
 	}
-	e.ResponseSuccess(c, data)
+	e.ResponseSuccess(c, &data)
 }
 
 // CommunityDetailHandler 获取社区分类详情
@@ -40,5 +40,5 @@ func CommunityDetailHandler(c *gin.Context) {
 		}
 		e.ResponseError(c, e.CodeServerBusy)
 	}
-	e.ResponseSuccess(c, data)
+	e.ResponseSuccess(c, &data)
 }
