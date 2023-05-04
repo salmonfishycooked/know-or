@@ -60,7 +60,7 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	// 业务处理
-	token, err := logic.Login(p)
+	user, err := logic.Login(p)
 	if err != nil {
 		zap.L().Error("logic.Login failed", zap.String("username", p.Username), zap.Error(err))
 		if errors.Is(err, e.ErrorUserNotExist) {
@@ -75,5 +75,9 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	// 返回响应
-	e.ResponseSuccess(c, token)
+	e.ResponseSuccess(c, gin.H{
+		"user_id":  user.UserID,
+		"username": user.Username,
+		"token":    user.Token,
+	})
 }
