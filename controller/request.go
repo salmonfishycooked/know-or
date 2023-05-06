@@ -29,11 +29,11 @@ func getPageInfo(c *gin.Context) (int64, int64) {
 	pageSizeStr := c.Query("page_size")
 	page, err := strconv.ParseInt(pageStr, 10, 64)
 	if err != nil {
-		page = 1
+		page = defaultPage
 	}
 	pageSize, err := strconv.ParseInt(pageSizeStr, 10, 64)
 	if err != nil {
-		pageSize = 8
+		pageSize = defaultPageSize
 	}
 	return page, pageSize
 }

@@ -1,6 +1,10 @@
 package mysql
 
-import "go_web_app/model"
+import (
+	"github.com/jmoiron/sqlx"
+	"go_web_app/model"
+	"strings"
+)
 
 // CreatePost 向数据库插入一条帖子
 func CreatePost(p *model.Post) (err error) {
@@ -22,6 +26,7 @@ func GetPostByID(pid int64) (post *model.Post, err error) {
 	return
 }
 
+// GetPostList 查询帖子列表
 func GetPostList(page, pageSize int64) (data []*model.Post, err error) {
 	sqlStr := `SELECT 
     post_id, title, content, author_id, community_id, status, create_time
@@ -31,5 +36,22 @@ func GetPostList(page, pageSize int64) (data []*model.Post, err error) {
     LIMIT ?, ?`
 	data = make([]*model.Post, 0, 2)
 	err = db.Select(&data, sqlStr, (page-1)*pageSize, pageSize)
+	return
+}
+
+// GetPostListByIDs 查询给定ids的帖子，顺序也按照给定的返回
+func GetPostListByIDs(ids []string) (postList []*model.Post, err error) {
+	sqlStr := `SELECT 
+    post_id, title, content, author_id, community_id, status, create_time
+	FROM post
+	WHERE post_id in (?)
+	ORDER BY FIND_IN_SET(post_id, ?)`
+	query, args, err := sqlx.In(sqlStr, ids, strings.Join(ids, ","))
+	if err != nil {
+		return nil, err
+	}
+
+	query = db.Rebind(query)
+	err = db.Select(&postList, query, args...)
 	return
 }

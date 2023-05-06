@@ -9,6 +9,11 @@ import (
 	"strconv"
 )
 
+const (
+	defaultPage     = 1
+	defaultPageSize = 8
+)
+
 // CreatePostHandler 处理创建帖子请求
 func CreatePostHandler(c *gin.Context) {
 	// 参数校验
@@ -73,6 +78,34 @@ func GetPostListHandler(c *gin.Context) {
 	data, err := logic.GetPostList(page, pageSize)
 	if err != nil {
 		zap.L().Error("logic.GetPostList() failed", zap.Error(err))
+		e.ResponseError(c, e.CodeServerBusy)
+		return
+	}
+
+	// 返回成功响应
+	e.ResponseSuccess(c, data)
+}
+
+// GetPostListHandler2 处理获取帖子列表的请求 新版
+// 根据前端传来的参数动态获取帖子列表
+// 按创建时间活着分数排序
+func GetPostListHandler2(c *gin.Context) {
+	// 参数校验
+	p := &model.ParamPostList{
+		Page:     defaultPage,
+		PageSize: defaultPageSize,
+		Order:    model.OrderTime,
+	}
+	if err := c.ShouldBind(p); err != nil {
+		zap.L().Error("GetPostListHandler2 with invalid param", zap.Error(err))
+		e.ResponseError(c, e.CodeInvalidParam)
+		return
+	}
+
+	// 获取帖子数据
+	data, err := logic.GetPostList2(p)
+	if err != nil {
+		zap.L().Error("logic.GetPostList2() failed", zap.Error(err))
 		e.ResponseError(c, e.CodeServerBusy)
 		return
 	}

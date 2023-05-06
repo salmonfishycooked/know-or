@@ -11,7 +11,7 @@ import (
 
 func PostVoteHandler(c *gin.Context) {
 	// 参数校验
-	p := &model.VoteData{}
+	p := &model.ParamVoteData{}
 	if err := c.ShouldBindJSON(p); err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
