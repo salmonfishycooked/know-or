@@ -34,6 +34,7 @@ func CreatePostHandler(c *gin.Context) {
 			return
 		}
 		e.ResponseError(c, e.CodeServerBusy)
+		return
 	}
 
 	// 返回成功响应

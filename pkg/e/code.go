@@ -12,6 +12,7 @@ const (
 	CodeInvalidToken
 	CodeNeedLogin
 	CodeInvalidID
+	CodeVoteTimeExpire
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -24,6 +25,7 @@ var codeMsgMap = map[ResCode]string{
 	CodeInvalidToken:    "无效的token",
 	CodeNeedLogin:       "需要登录",
 	CodeInvalidID:       "无效的id",
+	CodeVoteTimeExpire:  "投票时间已过",
 }
 
 func (c ResCode) Msg() string {

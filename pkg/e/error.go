@@ -9,4 +9,5 @@ var (
 	ErrorInvalidToken    = errors.New(CodeInvalidToken.Msg())
 	ErrorNeedLogin       = errors.New(CodeNeedLogin.Msg())
 	ErrorInvalidID       = errors.New(CodeInvalidID.Msg())
+	ErrorVoteTimeExpire  = errors.New(CodeVoteTimeExpire.Msg())
 )
