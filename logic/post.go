@@ -108,10 +108,17 @@ func GetPostList2(p *model.ParamPostList) ([]*model.ApiPostDetail, error) {
 	if err != nil {
 		return nil, err
 	}
+	zap.L().Debug("GetPostList2", zap.Any("posts", posts))
+
+	// 提前查询好每篇帖子的投票数
+	supportData, err := redis.GetPostSupportData(ids)
+	if err != nil {
+		return nil, err
+	}
 
 	// 查询更详细的信息
 	data := make([]*model.ApiPostDetail, 0, len(posts))
-	for _, post := range posts {
+	for i, post := range posts {
 		// 查询作者
 		user, err := mysql.GetUserByID(post.AuthorID)
 		if err != nil {
@@ -129,6 +136,7 @@ func GetPostList2(p *model.ParamPostList) ([]*model.ApiPostDetail, error) {
 		}
 		postDetails := &model.ApiPostDetail{
 			AuthorName:      user.Username,
+			Supports:        supportData[i],
 			Post:            post,
 			CommunityDetail: community,
 		}
