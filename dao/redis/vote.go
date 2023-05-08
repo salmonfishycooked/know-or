@@ -4,6 +4,7 @@ import (
 	"github.com/go-redis/redis"
 	"go_web_app/pkg/e"
 	"math"
+	"strconv"
 	"time"
 )
 
@@ -31,7 +32,7 @@ const (
 )
 
 // CreatePost 将新创建的帖子的创建时间保存到redis
-func CreatePost(postID int64) error {
+func CreatePost(postID int64, communityID int64) error {
 	pipeline := client.TxPipeline() // 使用 redis 事务
 	// 帖子时间
 	pipeline.ZAdd(getRedisKey(KeyPostTimeZSet), redis.Z{
@@ -44,6 +45,11 @@ func CreatePost(postID int64) error {
 		Score:  float64(time.Now().Unix()),
 		Member: postID,
 	})
+
+	// 把帖子id加到社区的set里
+	cKey := getRedisKey(KeyCommunitySetPrefix + strconv.Itoa(int(communityID)))
+	pipeline.SAdd(cKey, postID)
+
 	_, err := pipeline.Exec()
 	return err
 }

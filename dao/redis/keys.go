@@ -6,8 +6,9 @@ const (
 	keyPrefix        = "bluebell:"
 	KeyPostTimeZSet  = "post:time"  // zset; 帖子及发帖时间
 	KeyPostScoreZSet = "post:score" // zset; 帖子及投票的分数
-	// KeyPostVotedZSetPrefix zset; 记录用户及投票的类型; 参数是 postID
-	KeyPostVotedZSetPrefix = "post:voted:"
+
+	KeyPostVotedZSetPrefix = "post:voted:" // zset; 记录用户及投票的类型;
+	KeyCommunitySetPrefix  = "community:"  // set; 保存每个分区下的帖子id
 )
 
 // getRedisKey 给 redis key 加上前缀
