@@ -57,6 +57,12 @@ func VoteForPost(userID, postID string, value float64) error {
 
 	// 更新分数
 	ov := client.ZScore(getRedisKey(KeyPostVotedZSetPrefix+postID), userID).Val() // 查询用户对当前帖子的投票记录
+
+	// 判断是否重复投票
+	if value == ov {
+		return e.ErrorVoteRepeat
+	}
+
 	var op float64
 	if value > ov {
 		op = 1

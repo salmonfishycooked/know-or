@@ -32,6 +32,10 @@ func PostVoteHandler(c *gin.Context) {
 	// 投票
 	if err := logic.VoteForPost(userID, p); err != nil {
 		zap.L().Error("logic.VoteForPost() failed", zap.Error(err))
+		if err == e.ErrorVoteRepeat {
+			e.ResponseError(c, e.CodeVoteRepeat)
+			return
+		}
 		e.ResponseError(c, e.CodeServerBusy)
 		return
 	}

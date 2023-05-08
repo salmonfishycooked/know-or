@@ -13,6 +13,7 @@ const (
 	CodeNeedLogin
 	CodeInvalidID
 	CodeVoteTimeExpire
+	CodeVoteRepeat
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -26,6 +27,7 @@ var codeMsgMap = map[ResCode]string{
 	CodeNeedLogin:       "需要登录",
 	CodeInvalidID:       "无效的id",
 	CodeVoteTimeExpire:  "投票时间已过",
+	CodeVoteRepeat:      "重复投票",
 }
 
 func (c ResCode) Msg() string {
