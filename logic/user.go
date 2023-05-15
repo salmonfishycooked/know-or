@@ -2,6 +2,7 @@ package logic
 
 import (
 	"go_web_app/dao/mysql"
+	"go_web_app/dao/redis"
 	"go_web_app/model"
 	"go_web_app/pkg/jwt"
 	"go_web_app/pkg/snowflake"
@@ -41,5 +42,8 @@ func Login(p *model.ParamLogin) (user *model.User, err error) {
 
 	// 生成 JWT
 	user.Token, err = jwt.GenToken(user.UserID, user.Username)
+
+	// 将 token 存入缓存
+	err = redis.SetUserToken(user.UserID, user.Token, jwt.TokenExpireDuration)
 	return
 }

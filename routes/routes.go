@@ -18,6 +18,7 @@ func Setup() *gin.Engine {
 	v1.POST("/login", controller.LoginHandler)
 
 	v1.Use(middleware.JWTAuthMiddleware()) // 应用 JWT 认证中间件
+	v1.Use(middleware.IsRepeatLogin)       // 单点登录检查
 	{
 		v1.GET("/community", controller.CommunityHandler)
 		v1.GET("/community/:id", controller.CommunityDetailHandler)

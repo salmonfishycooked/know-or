@@ -7,7 +7,7 @@ import (
 )
 
 // TokenExpireDuration 是 token 的过期时间
-const TokenExpireDuration = time.Hour * 24 * 365
+const TokenExpireDuration = time.Hour * 24
 
 // Issuer 指 token 签发人
 const Issuer = "salmonfishycooked"

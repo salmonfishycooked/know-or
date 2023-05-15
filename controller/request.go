@@ -6,7 +6,10 @@ import (
 	"strconv"
 )
 
-const CtxUserIDKey = "userID"
+const (
+	CtxUserIDKey = "userID"
+	CtxUserToken = "userToken"
+)
 
 // GetCurrentUser 用来获取当前请求的用户id
 func GetCurrentUser(c *gin.Context) (userID int64, err error) {
@@ -16,6 +19,21 @@ func GetCurrentUser(c *gin.Context) (userID int64, err error) {
 		return
 	}
 	userID, ok = uid.(int64)
+	if !ok {
+		err = e.ErrorNeedLogin
+		return
+	}
+	return
+}
+
+// GetCurrentUserToken 用来获取当前请求的用户token
+func GetCurrentUserToken(c *gin.Context) (token string, err error) {
+	data, ok := c.Get(CtxUserToken)
+	if !ok {
+		err = e.ErrorNeedLogin
+		return
+	}
+	token, ok = data.(string)
 	if !ok {
 		err = e.ErrorNeedLogin
 		return
