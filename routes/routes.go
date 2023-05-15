@@ -5,14 +5,22 @@ import (
 	"go_web_app/controller"
 	"go_web_app/logger"
 	"go_web_app/middleware"
+	"time"
+)
+
+const (
+	BUCKET_CAP  = 1000
+	BUCKET_RATE = 10 * time.Millisecond
 )
 
 // Setup 用来初始化路由
 func Setup() *gin.Engine {
 	r := gin.New()
+
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 
 	v1 := r.Group("/api/v1")
+	v1.Use(middleware.RateLimitMiddleware(BUCKET_RATE, BUCKET_CAP)) // 令牌桶限流中间件
 	// 用户业务路由
 	v1.POST("/signup", controller.SignUpHandler)
 	v1.POST("/login", controller.LoginHandler)
