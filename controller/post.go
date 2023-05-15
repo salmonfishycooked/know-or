@@ -69,27 +69,10 @@ func GetPostDetailHandler(c *gin.Context) {
 	e.ResponseSuccess(c, &data)
 }
 
-// GetPostListHandler 处理获取帖子列表的请求
-func GetPostListHandler(c *gin.Context) {
-	// 参数校验
-	page, pageSize := getPageInfo(c)
-
-	// 获取帖子数据
-	data, err := logic.GetPostList(page, pageSize)
-	if err != nil {
-		zap.L().Error("logic.GetPostList() failed", zap.Error(err))
-		e.ResponseError(c, e.CodeServerBusy)
-		return
-	}
-
-	// 返回成功响应
-	e.ResponseSuccess(c, data)
-}
-
-// GetPostListHandler2 处理获取帖子列表的请求 新版
+// GetPostListHandler 处理获取帖子列表的请求 新版
 // 根据前端传来的参数动态获取帖子列表
 // 按创建时间活着分数排序
-func GetPostListHandler2(c *gin.Context) {
+func GetPostListHandler(c *gin.Context) {
 	// 参数校验
 	p := &model.ParamPostList{
 		Page:     defaultPage,
