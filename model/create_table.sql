@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS `user`
 CREATE TABLE `user`
 (
-    `id`          BIGINT NOT NULL AUTO_INCREMENT,
-    `user_id`     BIGINT NOT NULL,
+    `id`          BIGINT                                 NOT NULL AUTO_INCREMENT,
+    `user_id`     BIGINT                                 NOT NULL,
     `username`    VARCHAR(64) COLLATE utf8mb4_general_ci NOT NULL,
     `password`    VARCHAR(64) COLLATE utf8mb4_general_ci NOT NULL,
     `email`       VARCHAR(64) COLLATE utf8mb4_general_ci,
-    `gender`      TINYINT NOT NULL DEFAULT '0',
+    `gender`      TINYINT                                NOT NULL DEFAULT '0',
     `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
@@ -17,7 +17,7 @@ CREATE TABLE `user`
 DROP TABLE IF EXISTS `community`;
 CREATE TABLE `community`
 (
-    `id`             INT NOT NULL AUTO_INCREMENT,
+    `id`             INT                                     NOT NULL AUTO_INCREMENT,
     `community_id`   INT UNSIGNED NOT NULL,
     `community_name` VARCHAR(128) COLLATE utf8mb4_general_ci NOT NULL,
     `introduction`   VARCHAR(256) COLLATE utf8mb4_general_ci NOT NULL,
@@ -40,13 +40,13 @@ VALUES ('4', '4', 'LOL', '欢迎来到英雄联盟', '2023-05-01 08:40:10', '202
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post`
 (
-    `id`           BIGINT NOT NULL AUTO_INCREMENT,
-    `post_id`      BIGINT NOT NULL COMMENT '帖子id',
+    `id`           BIGINT                                   NOT NULL AUTO_INCREMENT,
+    `post_id`      BIGINT                                   NOT NULL COMMENT '帖子id',
     `title`        VARCHAR(128)                             NOT NULL COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
     `content`      VARCHAR(8192) COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容',
-    `author_id`    BIGINT NOT NULL COMMENT '作者的用户id',
-    `community_id` BIGINT NOT NULL COMMENT '所属社区',
-    `status`       TINYINT NOT NULL DEFAULT '1' COMMENT '帖子状态',
+    `author_id`    BIGINT                                   NOT NULL COMMENT '作者的用户id',
+    `community_id` BIGINT                                   NOT NULL COMMENT '所属社区',
+    `status`       TINYINT                                  NOT NULL DEFAULT '1' COMMENT '帖子状态',
     `create_time`  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`),
