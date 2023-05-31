@@ -21,6 +21,8 @@ func Setup() *gin.Engine {
 
 	v1 := r.Group("/api/v1")
 
+	v1.Use(middleware.Cors())
+
 	// 令牌桶限流中间件
 	v1.Use(middleware.RateLimitMiddleware(BUCKET_RATE, BUCKET_CAP))
 
@@ -32,7 +34,7 @@ func Setup() *gin.Engine {
 	{
 		post.GET("/:id", controller.GetPostDetailHandler)
 		// 根据时间或分数获取帖子列表
-		post.GET("/", controller.GetPostListHandler)
+		post.GET("", controller.GetPostListHandler)
 
 		// 对以下接口应用中间件
 		post.Use(middleware.JWTAuthMiddleware())
@@ -46,7 +48,7 @@ func Setup() *gin.Engine {
 
 	community := v1.Group("/community")
 	{
-		community.GET("/", controller.CommunityHandler)
+		community.GET("", controller.CommunityHandler)
 		community.GET("/:id", controller.CommunityDetailHandler)
 	}
 
