@@ -19,9 +19,9 @@ func Setup() *gin.Engine {
 
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 
-	v1 := r.Group("/api/v1")
+	r.Use(middleware.Cors())
 
-	v1.Use(middleware.Cors())
+	v1 := r.Group("/api/v1")
 
 	// 令牌桶限流中间件
 	v1.Use(middleware.RateLimitMiddleware(BUCKET_RATE, BUCKET_CAP))
