@@ -66,7 +66,7 @@ func GetPostDetailHandler(c *gin.Context) {
 	}
 
 	// 返回成功响应
-	e.ResponseSuccess(c, &data)
+	e.ResponseSuccess(c, data)
 }
 
 // GetPostListHandler 处理获取帖子列表的请求 新版
