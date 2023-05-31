@@ -43,7 +43,7 @@ func Setup() *gin.Engine {
 		// 投票
 		post.POST("/vote", controller.PostVoteHandler)
 		// 新建帖子
-		post.POST("/new", controller.CreatePostHandler)
+		post.POST("", controller.CreatePostHandler)
 	}
 
 	community := v1.Group("/community")
