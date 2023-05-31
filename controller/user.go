@@ -8,6 +8,8 @@ import (
 	"go_web_app/logic"
 	"go_web_app/model"
 	"go_web_app/pkg/e"
+	"go_web_app/pkg/jwt"
+	"go_web_app/settings"
 )
 
 // SignUpHandler 用来处理注册请求
@@ -74,10 +76,12 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
+	// 设置Cookie token字段
+	c.SetCookie(settings.COOKIE_TOKEN_FIELD, user.Token, int(jwt.TokenExpireDuration), "/", "localhost", false, true)
+
 	// 返回响应
 	e.ResponseSuccess(c, gin.H{
 		"user_id":  user.UserID,
 		"username": user.Username,
-		"token":    user.Token,
 	})
 }
