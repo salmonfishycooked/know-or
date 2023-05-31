@@ -8,7 +8,6 @@ import (
 	"go_web_app/logic"
 	"go_web_app/model"
 	"go_web_app/pkg/e"
-	"go_web_app/pkg/jwt"
 	"go_web_app/settings"
 )
 
@@ -77,7 +76,7 @@ func LoginHandler(c *gin.Context) {
 	}
 
 	// 设置Cookie token字段s
-	c.SetCookie(settings.COOKIE_TOKEN_FIELD, user.Token, int(jwt.TokenExpireDuration), "/", "localhost", false, false)
+	c.SetCookie(settings.COOKIE_TOKEN_FIELD, user.Token, settings.COOKIE_TOKEN_MAX_AGE, "/", "localhost", false, false)
 
 	// 返回响应
 	e.ResponseSuccess(c, gin.H{
