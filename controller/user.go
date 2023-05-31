@@ -76,8 +76,8 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	// 设置Cookie token字段
-	c.SetCookie(settings.COOKIE_TOKEN_FIELD, user.Token, int(jwt.TokenExpireDuration), "/", "localhost", false, true)
+	// 设置Cookie token字段s
+	c.SetCookie(settings.COOKIE_TOKEN_FIELD, user.Token, int(jwt.TokenExpireDuration), "/", "localhost", false, false)
 
 	// 返回响应
 	e.ResponseSuccess(c, gin.H{
