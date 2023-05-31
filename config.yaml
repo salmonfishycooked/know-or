@@ -1,4 +1,4 @@
-name: "go_web_app"
+name: "know-or"
 mode: "dev"
 port: 8080
 version: "v0.1.0"
