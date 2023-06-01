@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_web_app/controller"
-	"go_web_app/dao/redis"
-	"go_web_app/pkg/e"
+	"know_or/controller"
+	"know_or/dao/redis"
+	"know_or/pkg/e"
 )
 
 // IsRepeatLoginMiddleware 限制同一账号只能在一台设备上登录

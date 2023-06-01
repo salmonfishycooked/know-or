@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/go-redis/redis"
 	"github.com/spf13/viper"
-	"go_web_app/settings"
+	"know_or/settings"
 )
 
 var client *redis.Client

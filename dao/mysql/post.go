@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"github.com/jmoiron/sqlx"
-	"go_web_app/model"
+	"know_or/model"
 	"strings"
 )
 

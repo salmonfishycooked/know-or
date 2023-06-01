@@ -2,7 +2,7 @@ package jwt
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"go_web_app/pkg/e"
+	"know_or/pkg/e"
 	"time"
 )
 

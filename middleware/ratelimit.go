@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_web_app/pkg/e"
-	"go_web_app/pkg/ratelimit"
+	"know_or/pkg/e"
+	"know_or/pkg/ratelimit"
 	"time"
 )
 

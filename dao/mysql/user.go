@@ -4,8 +4,8 @@ import (
 	"crypto/md5"
 	"database/sql"
 	"encoding/hex"
-	"go_web_app/model"
-	"go_web_app/pkg/e"
+	"know_or/model"
+	"know_or/pkg/e"
 )
 
 // md5 盐值

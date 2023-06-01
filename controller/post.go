@@ -3,9 +3,9 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"go_web_app/logic"
-	"go_web_app/model"
-	"go_web_app/pkg/e"
+	"know_or/logic"
+	"know_or/model"
+	"know_or/pkg/e"
 	"strconv"
 )
 

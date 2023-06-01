@@ -5,7 +5,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
-	"go_web_app/settings"
+	"know_or/settings"
 )
 
 var db *sqlx.DB

@@ -3,8 +3,8 @@ package mysql
 import (
 	"database/sql"
 	"go.uber.org/zap"
-	"go_web_app/model"
-	"go_web_app/pkg/e"
+	"know_or/model"
+	"know_or/pkg/e"
 )
 
 func GetCommunityList() (communityList []*model.Community, err error) {

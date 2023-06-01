@@ -2,8 +2,8 @@ package logic
 
 import (
 	"go.uber.org/zap"
-	"go_web_app/dao/redis"
-	"go_web_app/model"
+	"know_or/dao/redis"
+	"know_or/model"
 	"strconv"
 )
 

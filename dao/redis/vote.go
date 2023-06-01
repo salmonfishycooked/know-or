@@ -2,7 +2,7 @@ package redis
 
 import (
 	"github.com/go-redis/redis"
-	"go_web_app/pkg/e"
+	"know_or/pkg/e"
 	"math"
 	"strconv"
 	"time"

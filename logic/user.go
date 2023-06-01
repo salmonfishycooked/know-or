@@ -1,11 +1,11 @@
 package logic
 
 import (
-	"go_web_app/dao/mysql"
-	"go_web_app/dao/redis"
-	"go_web_app/model"
-	"go_web_app/pkg/jwt"
-	"go_web_app/pkg/snowflake"
+	"know_or/dao/mysql"
+	"know_or/dao/redis"
+	"know_or/model"
+	"know_or/pkg/jwt"
+	"know_or/pkg/snowflake"
 )
 
 // SignUp 用来处理注册业务

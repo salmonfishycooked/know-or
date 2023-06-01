@@ -5,10 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
-	"go_web_app/logic"
-	"go_web_app/model"
-	"go_web_app/pkg/e"
-	"go_web_app/settings"
+	"know_or/logic"
+	"know_or/model"
+	"know_or/pkg/e"
+	"know_or/settings"
 )
 
 // SignUpHandler 用来处理注册请求

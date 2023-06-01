@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_web_app/pkg/e"
+	"know_or/pkg/e"
 	"strconv"
 )
 

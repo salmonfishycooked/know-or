@@ -1,8 +1,8 @@
 package logic
 
 import (
-	"go_web_app/dao/mysql"
-	"go_web_app/model"
+	"know_or/dao/mysql"
+	"know_or/model"
 )
 
 // GetCommunityList 返回 community 列表

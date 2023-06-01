@@ -1,4 +1,4 @@
-module go_web_app
+module know_or
 
 go 1.20
 

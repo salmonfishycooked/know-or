@@ -2,9 +2,9 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_web_app/controller"
-	"go_web_app/logger"
-	"go_web_app/middleware"
+	"know_or/controller"
+	"know_or/logger"
+	"know_or/middleware"
 	"time"
 )
 

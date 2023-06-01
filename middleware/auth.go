@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"go_web_app/controller"
-	"go_web_app/pkg/e"
-	"go_web_app/pkg/jwt"
-	"go_web_app/settings"
+	"know_or/controller"
+	"know_or/pkg/e"
+	"know_or/pkg/jwt"
+	"know_or/settings"
 )
 
 // JWTAuthMiddleware 基于JWT的认证中间件
