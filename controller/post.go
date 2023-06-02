@@ -80,7 +80,7 @@ func GetPostListHandler(c *gin.Context) {
 		Order:    model.OrderTime,
 	}
 	if err := c.ShouldBind(p); err != nil {
-		zap.L().Error("GetPostListHandler2 with invalid param", zap.Error(err))
+		zap.L().Error("GetPostListHandler with invalid param", zap.Error(err))
 		e.ResponseError(c, e.CodeInvalidParam)
 		return
 	}
@@ -88,7 +88,7 @@ func GetPostListHandler(c *gin.Context) {
 	// 获取帖子数据
 	data, err := logic.GetPostListNew(p)
 	if err != nil {
-		zap.L().Error("logic.GetPostList2() failed", zap.Error(err))
+		zap.L().Error("logic.GetPostList() failed", zap.Error(err))
 		e.ResponseError(c, e.CodeServerBusy)
 		return
 	}

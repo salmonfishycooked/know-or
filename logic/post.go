@@ -211,7 +211,7 @@ func GetCommunityPostList(p *model.ParamPostList) ([]*model.ApiPostDetail, error
 // GetPostListNew 根据参数 CommunityID 判断是否需要查询指定社区的帖子
 func GetPostListNew(p *model.ParamPostList) (data []*model.ApiPostDetail, err error) {
 	fmt.Println(p.CommunityID)
-	if p.CommunityID == 0 {
+	if p.CommunityID <= 0 {
 		// 查所有社区的
 		data, err = GetPostList2(p)
 	} else {
