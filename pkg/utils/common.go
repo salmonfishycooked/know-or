@@ -2,10 +2,14 @@ package utils
 
 import (
 	"github.com/gin-gonic/gin"
-	"know_or/controller"
 	"know_or/pkg/e"
 	"know_or/pkg/jwt"
 	"know_or/settings"
+)
+
+const (
+	CtxUserIDKey = "userID"
+	CtxUserToken = "userToken"
 )
 
 // SetCurrentUserWithCookie 从 Cookie 中读数据并存储到 context 里
@@ -23,8 +27,8 @@ func SetCurrentUserWithCookie(c *gin.Context) error {
 	}
 
 	// 将当前请求的username信息保存到请求的上下文c上
-	c.Set(controller.CtxUserIDKey, mc.UserID)
+	c.Set(CtxUserIDKey, mc.UserID)
 	// 将当前请求的user token信息保存到请求的上下文c上
-	c.Set(controller.CtxUserToken, token)
+	c.Set(CtxUserToken, token)
 	return nil
 }
