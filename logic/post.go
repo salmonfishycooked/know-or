@@ -1,13 +1,17 @@
 package logic
 
 import (
-	"fmt"
 	"go.uber.org/zap"
 	"know_or/dao/mysql"
 	"know_or/dao/redis"
 	"know_or/model"
 	"know_or/pkg/snowflake"
 	"strconv"
+)
+
+const (
+	// USER_SUPPORT_NONE 代表用户没投票
+	USER_SUPPORT_NONE = 0
 )
 
 // CreatePost 用来创建一条帖子
@@ -120,7 +124,7 @@ func GetPostList2(p *model.ParamPostList) ([]*model.ApiPostDetail, error) {
 	}
 	//zap.L().Debug("GetPostList2", zap.Any("posts", posts))
 
-	// 提前查询好每篇帖子的投票数
+	// 查询每篇帖子的投票数
 	supportData, err := redis.GetPostSupportData(ids)
 	if err != nil {
 		return nil, err
@@ -210,7 +214,6 @@ func GetCommunityPostList(p *model.ParamPostList) ([]*model.ApiPostDetail, error
 
 // GetPostListNew 根据参数 CommunityID 判断是否需要查询指定社区的帖子
 func GetPostListNew(p *model.ParamPostList) (data []*model.ApiPostDetail, err error) {
-	fmt.Println(p.CommunityID)
 	if p.CommunityID <= 0 {
 		// 查所有社区的
 		data, err = GetPostList2(p)
@@ -223,4 +226,30 @@ func GetPostListNew(p *model.ParamPostList) (data []*model.ApiPostDetail, err er
 		return nil, err
 	}
 	return
+}
+
+// GetPostListWithUid 根据参数 CommunityID 判断是否需要查询指定社区的帖子
+// 并查询当前用户对这些帖子的投票情况
+func GetPostListWithUid(p *model.ParamPostList, uid int64) (data []*model.ApiPostDetail, err error) {
+	data, err = GetPostListNew(p)
+	if err != nil {
+		zap.L().Error("GetPostListWithUser failed", zap.Error(err))
+		return nil, err
+	}
+
+	// 对帖子加上用户的投票情况
+	for i := range data {
+		status := getPostSupportStatus(data[i].Post.ID, uid)
+		data[i].SupportStatus = status
+	}
+	return
+}
+
+// getPostSupportStatus 获取用户对于某个帖子投票的情况
+func getPostSupportStatus(pid int64, uid int64) int {
+	res, err := redis.GetPostUserSupportStatus(pid, uid)
+	if err != nil {
+		return USER_SUPPORT_NONE
+	}
+	return int(res)
 }

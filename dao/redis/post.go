@@ -69,3 +69,11 @@ func GetCommunityPostIDsInOrder(p *model.ParamPostList) ([]string, error) {
 
 	return getIDsFromKey(key, p.Page, p.PageSize)
 }
+
+// GetPostUserSupportStatus 获取用户对于某个帖子点赞的情况
+// pid 帖子id, uid 用户id
+func GetPostUserSupportStatus(pid int64, uid int64) (status float64, err error) {
+	key := getRedisKey(KeyPostVotedZSetPrefix) + strconv.FormatInt(pid, 10)
+	status, err = client.ZScore(key, strconv.FormatInt(uid, 10)).Result()
+	return
+}

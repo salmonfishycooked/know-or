@@ -6,6 +6,7 @@ import (
 	"know_or/logic"
 	"know_or/model"
 	"know_or/pkg/e"
+	"know_or/pkg/utils"
 	"strconv"
 )
 
@@ -86,7 +87,15 @@ func GetPostListHandler(c *gin.Context) {
 	}
 
 	// 获取帖子数据
-	data, err := logic.GetPostListNew(p)
+	var data []*model.ApiPostDetail
+	err := utils.SetCurrentUserWithCookie(c)
+	if err != nil {
+		data, err = logic.GetPostListNew(p)
+	} else {
+		uid, _ := GetCurrentUser(c)
+		data, err = logic.GetPostListWithUid(p, uid)
+	}
+
 	if err != nil {
 		zap.L().Error("logic.GetPostList() failed", zap.Error(err))
 		e.ResponseError(c, e.CodeServerBusy)

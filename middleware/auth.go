@@ -2,10 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"know_or/controller"
 	"know_or/pkg/e"
-	"know_or/pkg/jwt"
-	"know_or/settings"
+	"know_or/pkg/utils"
 )
 
 // JWTAuthMiddleware 基于JWT的认证中间件
@@ -43,26 +41,17 @@ import (
 
 func JWTAuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		// 从 cookie 中获取 token
-		token, err := c.Cookie(settings.COOKIE_TOKEN_FIELD)
-		if err != nil {
+		err := utils.SetCurrentUserWithCookie(c)
+		if err == e.ErrorNeedLogin {
 			e.ResponseError(c, e.CodeNeedLogin)
 			c.Abort()
 			return
 		}
-
-		// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它
-		mc, err := jwt.ParseToken(token)
-		if err != nil {
+		if err == e.ErrorInvalidToken {
 			e.ResponseError(c, e.CodeInvalidToken)
 			c.Abort()
 			return
 		}
-
-		// 将当前请求的username信息保存到请求的上下文c上
-		c.Set(controller.CtxUserIDKey, mc.UserID)
-		// 将当前请求的user token信息保存到请求的上下文c上
-		c.Set(controller.CtxUserToken, token)
 		c.Next()
 	}
 }
