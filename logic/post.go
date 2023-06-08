@@ -72,6 +72,19 @@ func GetPostByID(pid int64) (*model.ApiPostDetail, error) {
 	return data, err
 }
 
+func GetPostByIDWithUid(pid, uid int64) (*model.ApiPostDetail, error) {
+	data, err := GetPostByID(pid)
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询 uid 的投票情况
+	status := getPostSupportStatus(pid, uid)
+	data.SupportStatus = status
+
+	return data, nil
+}
+
 // GetPostList 获取帖子列表
 //func GetPostList(page, pageSize int64) ([]*model.ApiPostDetail, error) {
 //	posts, err := mysql.GetPostList(page, pageSize)

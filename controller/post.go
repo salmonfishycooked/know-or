@@ -58,8 +58,16 @@ func GetPostDetailHandler(c *gin.Context) {
 		return
 	}
 
+	var data *model.ApiPostDetail
+	err = utils.SetCurrentUserWithCookie(c)
+	if err != nil {
+		data, err = logic.GetPostByID(pid)
+	} else {
+		uid, _ := GetCurrentUser(c)
+		data, err = logic.GetPostByIDWithUid(pid, uid)
+	}
 	// 取出相对应id的帖子数据
-	data, err := logic.GetPostByID(pid)
+
 	if err != nil {
 		zap.L().Error("logic.GetPostByID failed", zap.Error(err))
 		e.ResponseError(c, e.CodeServerBusy)
@@ -72,7 +80,7 @@ func GetPostDetailHandler(c *gin.Context) {
 
 // GetPostListHandler 处理获取帖子列表的请求 新版
 // 根据前端传来的参数动态获取帖子列表
-// 按创建时间活着分数排序
+// 按创建时间或者分数排序
 func GetPostListHandler(c *gin.Context) {
 	// 参数校验
 	p := &model.ParamPostList{
