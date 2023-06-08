@@ -1,7 +1,6 @@
 package redis
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 )
@@ -13,7 +12,6 @@ func GetUserToken(uid int64) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(result)
 	return result, nil
 }
 

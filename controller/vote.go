@@ -35,6 +35,9 @@ func PostVoteHandler(c *gin.Context) {
 		if err == e.ErrorVoteRepeat {
 			e.ResponseError(c, e.CodeVoteRepeat)
 			return
+		} else if err == e.ErrorVoteTimeExpire {
+			e.ResponseError(c, e.CodeVoteTimeExpire)
+			return
 		}
 		e.ResponseError(c, e.CodeServerBusy)
 		return

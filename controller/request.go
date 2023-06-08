@@ -24,7 +24,7 @@ func GetCurrentUser(c *gin.Context) (userID int64, err error) {
 
 // GetCurrentUserToken 用来获取当前请求的用户token
 func GetCurrentUserToken(c *gin.Context) (token string, err error) {
-	data, ok := c.Get(utils.CtxUserIDKey)
+	data, ok := c.Get(utils.CtxUserToken)
 	if !ok {
 		err = e.ErrorNeedLogin
 		return
