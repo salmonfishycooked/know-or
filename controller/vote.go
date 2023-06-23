@@ -30,7 +30,8 @@ func PostVoteHandler(c *gin.Context) {
 		return
 	}
 	// 投票
-	if err := logic.VoteForPost(userID, p); err != nil {
+	data, err := logic.VoteForPost(userID, p)
+	if err != nil {
 		zap.L().Error("logic.VoteForPost() failed", zap.Error(err))
 		if err == e.ErrorVoteRepeat {
 			e.ResponseError(c, e.CodeVoteRepeat)
@@ -44,5 +45,5 @@ func PostVoteHandler(c *gin.Context) {
 	}
 
 	// 返回成功响应
-	e.ResponseSuccess(c, nil)
+	e.ResponseSuccess(c, &data)
 }

@@ -2,6 +2,7 @@ package redis
 
 import (
 	"github.com/go-redis/redis"
+	"know_or/model"
 	"know_or/pkg/e"
 	"math"
 	"strconv"
@@ -54,11 +55,11 @@ func CreatePost(postID int64, communityID int64) error {
 	return err
 }
 
-func VoteForPost(userID, postID string, value float64) error {
+func VoteForPost(userID, postID string, value float64) (*model.VoteRes, error) {
 	// 判断投票限制
 	postTime := client.ZScore(getRedisKey(KeyPostTimeZSet), postID).Val() // 取帖子发布时间
 	if float64(time.Now().Unix())-postTime > oneWeekInSeconds {
-		return e.ErrorVoteTimeExpire
+		return nil, e.ErrorVoteTimeExpire
 	}
 
 	// 更新分数
@@ -66,7 +67,7 @@ func VoteForPost(userID, postID string, value float64) error {
 
 	// 判断是否重复投票
 	if value == ov {
-		return e.ErrorVoteRepeat
+		return nil, e.ErrorVoteRepeat
 	}
 
 	var op float64
@@ -89,5 +90,17 @@ func VoteForPost(userID, postID string, value float64) error {
 		})
 	}
 	_, err := pipeline.Exec()
-	return err
+	if err != nil {
+		return nil, err
+	}
+	// 查询帖子点赞数
+	sup, err := GetPostSupportData([]string{postID})
+	if err != nil {
+		return nil, err
+	}
+	data := &model.VoteRes{
+		Supports:  sup[0],
+		Direction: int8(value),
+	}
+	return data, nil
 }
