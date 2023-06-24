@@ -58,6 +58,7 @@ func GetPostDetailHandler(c *gin.Context) {
 		return
 	}
 
+	// 取出相对应id的帖子数据
 	var data *model.ApiPostDetail
 	err = utils.SetCurrentUserWithCookie(c)
 	if err != nil {
@@ -66,7 +67,6 @@ func GetPostDetailHandler(c *gin.Context) {
 		uid, _ := GetCurrentUser(c)
 		data, err = logic.GetPostByIDWithUid(pid, uid)
 	}
-	// 取出相对应id的帖子数据
 
 	if err != nil {
 		zap.L().Error("logic.GetPostByID failed", zap.Error(err))
